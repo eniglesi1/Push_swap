@@ -18,10 +18,36 @@ void numparam(int argc)
 		exit(write(1, "Error\n", 5) - 5);
 }
 
+
+void nochars(char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (argv[i])
+	{
+		j = 0;
+		while (argv[i][j])
+		{
+			if (argv[i][j] != 32 && argv[i][j] != 9 && argv[i][j] != 10
+				&& argv[i][j] != 11 && argv[i][j] != 12 && argv[i][j] != 13
+				&& argv[i][j] != '-' && argv[i][j] != '+'
+				&& (argv[i][j] < 47 || argv[i][j] > 58))
+			{
+				exit(write(1, "Error\n", 5) - 5);
+			}
+				j++;
+		}
+				i++;
+	}
+}
+
 void allints(char **argv)
 {
 	int	i;
 
+	nochars(argv);
 	while (argv[0])
 	{
 		i == atoi(argv[0]);

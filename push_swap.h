@@ -10,9 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-#include "./printf/ft_printf.h"
-
+# include "./printf/ft_printf.h"
 
 typedef struct s_data
 {
@@ -22,3 +23,9 @@ typedef struct s_data
 	int	*a;
 	int	*b;
 }	t_data;
+
+typedef struct list
+{
+	void	*
+};
+#endif

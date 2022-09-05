@@ -14,7 +14,7 @@
 
 int	ft_atoi(const char *nptr)
 {
-	long long	a;
+	int	a;
 	int	b;
 	int	neg;
 
@@ -34,14 +34,7 @@ int	ft_atoi(const char *nptr)
 		a = a * 10 + (nptr[b] - 48);
 		b++;
 	}
-	if ((a > 2147483648 && neg == 1) || (a > 2147483647 && neg == 0))
-		exit(write(1, "Error\n", 6) - 6);
 	if (neg % 2 == 1)
 		a = a * -1;
-	while (nptr[b] == 32 || nptr[b] == 9 || nptr[b] == 10 || nptr[b] == 11
-		|| nptr[b] == 12 || nptr[b] == 13)
-		b++;
-	if (nptr[b] )
-		exit(write(1, "Error\n", 6) - 6);
 	return (a);
 }
