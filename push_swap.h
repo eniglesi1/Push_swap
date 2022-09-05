@@ -24,8 +24,9 @@ typedef struct s_data
 	int	*b;
 }	t_data;
 
-typedef struct list
+typedef struct s_list
 {
-	void	*
-};
+	int		data;
+	void	*next;
+}	t_list;
 #endif
