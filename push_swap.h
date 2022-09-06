@@ -15,18 +15,27 @@
 
 # include "./printf/ft_printf.h"
 
+typedef struct s_list
+{
+	int		content;
+	struct s_list	*next;
+}	t_list;
+
 typedef struct s_data
 {
 	int		i;
 	int		min;
 	int		max;
-	t_list	a;
-	t_list	b;
+	int		*first;
+	int		*last;
+	t_list	*a;
+	t_list	*b;
 }	t_data;
 
-typedef struct s_list
-{
-	int		data;
-	void	*next;
-}	t_list;
+t_list *newnode (void);
+int	isorg(t_data *data, int i);
+void	limits(t_data *data, int i);
+void	p(t_data *data, int i);
+void	r(t_data *data, int i);
+
 #endif

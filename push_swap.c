@@ -14,16 +14,19 @@
 
 void	numparam(int argc)
 {
+	printf("		numparam\n");
 	if (argc == 1)
-		exit(write(1, "Error\n", 5) - 5);
+		exit(write(1, "Error, número de parametros incorrecto\n", 40) - 40);
+	printf("		completo\n");
 }
 
 void	nochars(char **argv)
 {
+	printf("			nochars\n");
 	int	i;
 	int	j;
 
-	i = 0;
+	i = 1;
 	while (argv[i])
 	{
 		j = 0;
@@ -34,119 +37,157 @@ void	nochars(char **argv)
 				&& argv[i][j] != '-' && argv[i][j] != '+'
 				&& (argv[i][j] < 47 || argv[i][j] > 58))
 			{
-				exit(write(1, "Error\n", 5) - 5);
+				exit(write(1, "Error. char\n", 11) - 11);
 			}
 				j++;
 		}
 				i++;
 	}
+	printf("			completo\n");
 }
 
-t_list	allints(char **argv)
+t_list	*allints(char **argv)
 {
+	printf("		allints\n");
 	int		i;
-	t_list	a;
-	t_list	b;
+	t_list	*a;
+	t_list	*b;
+	t_list	*c;
 
-	b = NULL;
-	i = 1;
 	nochars(argv);
+	b = newnode();
+	b->content = atoi(argv[1]);
+	b->next = NULL;
+	i = 2;
+	c = b;
 	while (argv[i])
 	{
-		a = newnode;
-		a.data = atoi(argv[i]);
-		a->next = b;
-		b = a;
+		a = newnode();
+		a->content = atoi(argv[i]);
+		b->next = a;
+		b = b->next;
 		i++;
 	}
-	return	a;
+	printf("		completo\n");
+	return	c;
 }
 
-void	dupnum(t_list a)
+void	dupnum(t_list *a)
 {
+	printf("dupnum\n");
 	int		i;
-	t_list	b;
+	t_list	*b;
 
 	b = a;
 	while (b)
 	{
 		a = a->next;
-		i = b.data;
+		i = b->content;
 		while (a)
 		{
-			if (a.data == i)
+			if (a->content == i)
 				exit(write(1, "Error\n", 5) - 5);
 			a = a->next;
 		}
 		b = b->next;
 		a = b;
-		
 	}
+	printf("completo\n");
 }
-1 2 3 4 5
-void	parseo(int argc, char **argv)
+
+t_list	*parseo(int argc, char **argv)
 {
-	t_list	a;
+	printf("	parseo\n");
+	t_list	*a;
 
 	numparam(argc);
 	a = allints(argv);
 	dupnum(a);
+	printf("	completo\n");
+	return a;
+}
+
+void	limits(t_data *data, int i)
+{
+	printf("	limits\n");
+	t_list	*a;
+
+	if (i == 0)
+		a = data->a;
+	if (i == 1)
+		a = data->b;
+	if (a)
+	{
+		data->first = &a->content;
+		printf("	first - %d\n", *data->first);
+		data->min = a->content;
+		printf("	min - %d\n", data->min);
+		data->max = a->content;
+		printf("	max - %d\n", data->max);
+		while (a)
+		{
+			if (a->content > data->max)
+				data->max = a->content;
+			printf("	min - %d\n", data->min);
+			if (a->content < data->min)
+				data->min = a->content;
+			printf("	max - %d\n", data->max);
+			data->last = &a->content;
+			printf("	last - %d\n", *data->last);
+			a = a->next;
+		}
+		printf("	completo \n		min -%d-\n		max -%d-\n		first -%d-\n		last -%d-\n", data->min, data->max, *data->first, *data->last);
+	}
+}
+
+
+void	org(t_data *data, int i)
+{
+	printf("org\n");
+	limits(data, i);
+	r(data, i + 1); //when i = 1 rb when i = 2 ra
+	while (isorg(data, i))//when i = 0 a when i = 1 b
+	{
+		printf("				While %d\n", *data->last);
+		if (*data->first == data->min)
+			r(data, i); //when i = 0 ra when i = 1 rb
+		while (*data->first > *data->last && *data->first != data->min)
+			r(data, i);//when i = 0 ra when i = 1 rb
+		printf("				While2 %d\n", *data->last);
+		while (*data->first < *data->last && *data->first != data->min)
+			p(data, i);//when i = 0 pb(p to b) when i = 1 pa (p to a)
+		printf("				completo\n");
+	}
+	printf("completo\n");
+}
+
+void	org_ab(t_data *data)
+{
+	printf("org_ab\n");
+	while (isorg(data, 2))
+	{
+		org(data, 0);
+		org(data, 1);
+	}
+	limits(data, 0);
+	while(data->b && !isorg(data, 0))
+	{
+		if (data->b->content > *data->last && data->b->content < data->a->content)
+			p(data, 1);
+		else
+			r(data, 0);
+	}
+	printf("completo\n");
 }
 
 int	main(int argc, char **argv)
 {
+	printf("main\n");
 	t_data	data;
 
-	parseo(argc, argv);
+	data.a = parseo(argc, argv);
 	data.i = 1;
-	data.a = ft_calloc(sizeof(int), argc);
-	if (!data.a)
-		exit(write(1, "Malloc Error", 12) - 12);
-	data.b = ft_calloc(sizeof(int), argc);
-	if (!data.b)
-		exit(write(1, "Malloc Error", 12) - 12);
-	while (data.i <= argc)
-	{
-		data.a[data.i - 1] = atoi(argv[data.i]);
-		data.i++;
-	}
-	while (org_ab(data.a, data.b) != 1)
-	{
-		r(data.b, 0);
-		data.min = limits(data.a, 0);
-		data.max = limits(data.a, 1);
-		while (org(data.a, 0))
-		{
-			if (data.a[0] == data.min)
-				r(data.a, 0);
-			while (data.a[0] > data.a[ft_intlen(data.a) - 1]
-				&& data.a[0] != data.min)
-				r(data.a, 0);
-			while (data.a[0] < data.a[ft_intlen(data.a) - 1]
-				&& data.a[0] != data.min)
-				p(data.b, 1);
-		}
-		r(data.a, 0);
-		data.min = limits(data.b, 0);
-		data.max = limits(data.b, 1);
-		while (org(data.b, 1))
-		{
-			if (data.b[0] == data.min)
-				r(data.b, 1);
-			while (data.b[0] > data.b[ft_intlen(data.b) - 1]
-				&& data.b[0] != data.min)
-				r(data.b, 1);
-			while (data.b[0] < data.b[ft_intlen(data.b) - 1]
-				&& data.b[0] != data.min)
-				p(data.a, 0);
-		}
-	}
-	while (data.b[0] && !org(data.a, 0))
-	{
-		if (data.b[0] > data.a[ft_intlen(data.a) - 1] && data.b[0] < data.a[0])
-			p(data.b, 1);
-		else
-			r(data.a, 0);
-	}
+	org_ab(&data);
+	printf("completo\n");
 	return (0);
 }
