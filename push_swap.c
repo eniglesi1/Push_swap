@@ -42,23 +42,55 @@ void	nochars(char **argv)
 	}
 }
 
-void	allints(char **argv)
+t_list	allints(char **argv)
 {
-	int	i;
+	int		i;
+	t_list	a;
+	t_list	b;
 
+	b = NULL;
+	i = 1;
 	nochars(argv);
-	while (argv[0])
+	while (argv[i])
 	{
-		i == atoi(argv[0]);
-		argv++;
+		a = newnode;
+		a.data = atoi(argv[i]);
+		a->next = b;
+		b = a;
+		i++;
 	}
+	return	a;
 }
 
+void	dupnum(t_list a)
+{
+	int		i;
+	t_list	b;
+
+	b = a;
+	while (b)
+	{
+		a = a->next;
+		i = b.data;
+		while (a)
+		{
+			if (a.data == i)
+				exit(write(1, "Error\n", 5) - 5);
+			a = a->next;
+		}
+		b = b->next;
+		a = b;
+		
+	}
+}
+1 2 3 4 5
 void	parseo(int argc, char **argv)
 {
+	t_list	a;
+
 	numparam(argc);
-	allints(argv + 1);
-	dupnum(argv);
+	a = allints(argv);
+	dupnum(a);
 }
 
 int	main(int argc, char **argv)

@@ -17,11 +17,11 @@
 
 typedef struct s_data
 {
-	int	i;
-	int	min;
-	int	max;
-	int	*a;
-	int	*b;
+	int		i;
+	int		min;
+	int		max;
+	t_list	a;
+	t_list	b;
 }	t_data;
 
 typedef struct s_list
