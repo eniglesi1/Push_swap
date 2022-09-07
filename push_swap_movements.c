@@ -32,14 +32,21 @@ void	print_list(t_data *data)
 
 	i = 0;
 	a = data->a;
-	printf("------------------------------\nImprimiendo lista:\n");
-	while (a)
+	printf("------------------------------\nImprimiendo lista: a\n");
+	while (a && i < 20)
 	{
 		printf("     a%d : -%d-\n", i, a->content);
 		i++;
 		a = a->next;
 	}
-	
+	a = data->b;
+	printf("------------------------------\nImprimiendo lista: b\n");
+	while (a && i < 20)
+	{
+		printf("     a%d : -%d-\n", i, a->content);
+		i++;
+		a = a->next;
+	}
 }
 
 void	r(t_data *data, int i)
@@ -49,6 +56,8 @@ void	r(t_data *data, int i)
 	t_list	*a;
 	t_list	*b;
 
+	if (i == 2)
+		i = 0;
 	if (i == 1)
 		a = data->b;
 	else
@@ -84,26 +93,40 @@ void	p(t_data *data, int i)
 	printf("p\n");
 	t_list	*a;
 	t_list	*b;
+	t_list	*c;
 
 	a = data->a;
 	b = data->b;
+	c = data->a->next;
 	if (i == 1)
 	{
 		a = data->b;
 		b = data->a;
+		c = data->b->next;
 	}
-	if (!a)
-		a = newnode();
-	if (!b)
-		b = newnode();
+//	if (!b)
+//		b = newnode();
 	a->next = b;
-	*b = *a;
+	b = a;
+	if (i == 1)
+	{
+		data->b = c;
+		data->a = b;
+	}
+	else
+	{
+		data->a = c;
+		data->b = b;
+	}
+	print_list(data);
+	sleep(2);
 	printf("completo\n");
+	limits(data, i);
 }
 
 int	isorg(t_data *data, int i)
 {
-	printf("	isorg\n");
+	printf("	isorg  -%d-\n", i);
 	t_list	*a;
 	t_list	*b;
 

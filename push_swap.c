@@ -143,9 +143,10 @@ void	limits(t_data *data, int i)
 
 void	org(t_data *data, int i)
 {
-	printf("org\n");
+	printf("org %d\n", i);
 	limits(data, i);
-	r(data, i + 1); //when i = 1 rb when i = 2 ra
+	if (isorg(data,i))
+		r(data, i + 1); //when i = 1 rb when i = 2 ra
 	while (isorg(data, i))//when i = 0 a when i = 1 b
 	{
 		printf("				While %d\n", *data->last);
@@ -170,12 +171,18 @@ void	org_ab(t_data *data)
 		org(data, 1);
 	}
 	limits(data, 0);
-	while(data->b && !isorg(data, 0))
+	while(data->b || isorg(data, 0))
 	{
-		if (data->b->content > *data->last && data->b->content < data->a->content)
-			p(data, 1);
+		if (data->b)
+		{
+			if (data->b->content > *data->last && data->b->content < data->a->content)
+				p(data, 1);
+			else
+				r(data, 0);
+		}
 		else
-			r(data, 0);
+			while (isorg(data, 0))
+				r(data,0);
 	}
 	printf("completo\n");
 }
