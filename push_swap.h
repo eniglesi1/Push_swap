@@ -17,7 +17,7 @@
 
 typedef struct s_list
 {
-	int		content;
+	int				content;
 	struct s_list	*next;
 }	t_list;
 
@@ -32,8 +32,8 @@ typedef struct s_data
 	t_list	*b;
 }	t_data;
 
-t_list *newnode (void);
-int	isorg(t_data *data, int i);
+t_list	*newnode(void);
+int		isorg(t_data *data, int i);
 void	limits(t_data *data, int i);
 void	p(t_data *data, int i);
 void	r(t_data *data, int i);

@@ -12,23 +12,21 @@
 
 #include "./push_swap.h"
 
-t_list *newnode (void)
+t_list	*newnode(void)
 {
-	printf("			newmode\n");
-	t_list *a;
+	t_list	*a;
 
 	a = (t_list *)malloc(sizeof(t_list));
 	if (!a)
 		exit(write(1, "Error\n", 5) - 5);
 	a->next = NULL;
-	printf("			completo\n");
-	return a;
+	return (a);
 }
 
 void	print_list(t_data *data)
 {
 	t_list	*a;
-	int i;
+	int		i;
 
 	i = 0;
 	a = data->a;
@@ -51,82 +49,57 @@ void	print_list(t_data *data)
 
 void	r(t_data *data, int i)
 {
-	printf("r\n");
-	print_list(data);
-	t_list	*a;
+	t_list	**a;
 	t_list	*b;
 
-	if (i == 2)
-		i = 0;
+	a = &data->a;
 	if (i == 1)
-		a = data->b;
-	else
-		a = data->a;
-	b = a;
-	if (a)
+		a = &data->b;
+	b = *a;
+	if (*a)
 	{
-		while (a->next)
-			a = a->next;
-		a->next = b;
-		if (i == 1)
-			data->b = b->next;
-		else
-			data->a = b->next;
+		while ((*a)->next)
+			*a = (*a)->next;
+		(*a)->next = b;
+		*a = (*a)->next->next;
 		b->next = NULL;
 	}
-	printf("				inr %d\n", *data->first);
-	printf("				inr %d\n", *data->last);
-	sleep(2);
-	
-	write(1, "r", 1);
 	if (i == 1)
-		write(1, "b", 1);
+		write(1, "rb\n", 4);
 	else
-		write(1, "a", 1);
-	printf("completo\n");
-	print_list(data);
-	limits(data, i);
+		write(1, "ra\n", 4);
+//	print_list(data);
+	limits(data, i % 2);
 }
 
 void	p(t_data *data, int i)
 {
-	printf("p\n");
-	t_list	*a;
-	t_list	*b;
+	t_list	**a;
+	t_list	**b;
 	t_list	*c;
 
-	a = data->a;
-	b = data->b;
+	a = &data->a;
+	b = &data->b;
 	c = data->a->next;
 	if (i == 1)
 	{
-		a = data->b;
-		b = data->a;
+		a = &data->b;
+		b = &data->a;
 		c = data->b->next;
 	}
-//	if (!b)
-//		b = newnode();
-	a->next = b;
-	b = a;
+	(*a)->next = *b;
+	*b = *a;
+	*a = c;
 	if (i == 1)
-	{
-		data->b = c;
-		data->a = b;
-	}
+		write(1, "pa\n", 4);
 	else
-	{
-		data->a = c;
-		data->b = b;
-	}
-	print_list(data);
-	sleep(2);
-	printf("completo\n");
+		write(1, "pb\n", 4);
+//	print_list(data);
 	limits(data, i);
 }
 
 int	isorg(t_data *data, int i)
 {
-	printf("	isorg  -%d-\n", i);
 	t_list	*a;
 	t_list	*b;
 
@@ -137,7 +110,7 @@ int	isorg(t_data *data, int i)
 		while (a->next)
 		{
 			if (a->content > a->next->content && (i == 0 || i == 2))
-				return (printf("	completo1\n") - printf("	completo2\n") + 1);
+				return (1);
 			a = a->next;
 		}
 	}
@@ -146,16 +119,34 @@ int	isorg(t_data *data, int i)
 		while (b->next)
 		{
 			if (b->content > b->next->content && (i == 1 || i == 2))
-				return (printf("	completo3\n") - printf("	completo4\n") + 1);
+				return (1);
 			b = b->next;
 		}
 	}
-	printf("	completo\n");
-	return 0;
+	return (0);
 }
 
-/*void	r(t_data *data, int i)
+void	rr(t_data *data, int i)
 {
-	
+	t_list	**a;
+	t_list	*b;
+
+	a = &data->a;
+	if (i == 1)
+		a = &data->b;
+	b = *a;
+	if (*a)
+	{
+		while ((*a)->next)
+			*a = (*a)->next;
+		(*a)->next = b;
+		*a = (*a)->next->next;
+		b->next = NULL;
+	}
+	if (i == 1)
+		write(1, "rb\n", 4);
+	else
+		write(1, "ra\n", 4);
+//	print_list(data);
+	limits(data, i % 2);
 }
-*/
