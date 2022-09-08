@@ -18,6 +18,8 @@
 typedef struct s_list
 {
 	int				content;
+	int				numeration;
+	int				position;
 	struct s_list	*next;
 }	t_list;
 
@@ -37,5 +39,7 @@ int		isorg(t_data *data, int i);
 void	limits(t_data *data, int i);
 void	p(t_data *data, int i);
 void	r(t_data *data, int i);
+void	rr(t_data *data, int i);
+void	print_list(t_data *data);
 
 #endif

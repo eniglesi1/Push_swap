@@ -19,6 +19,7 @@ t_list	*newnode(void)
 	a = (t_list *)malloc(sizeof(t_list));
 	if (!a)
 		exit(write(1, "Error\n", 5) - 5);
+	a->numeration = 0;
 	a->next = NULL;
 	return (a);
 }
@@ -33,7 +34,8 @@ void	print_list(t_data *data)
 	printf("------------------------------\nImprimiendo lista: a\n");
 	while (a && i < 20)
 	{
-		printf("     a%d : -%d-\n", i, a->content);
+		printf("     a%d : -%d-     %d\n", i + 1, a->numeration, a->content);
+		a->position = i + 1;
 		i++;
 		a = a->next;
 	}
@@ -41,7 +43,7 @@ void	print_list(t_data *data)
 	printf("------------------------------\nImprimiendo lista: b\n");
 	while (a && i < 20)
 	{
-		printf("     a%d : -%d-\n", i, a->content);
+		printf("     a%d : -%d-\n", a->numeration, a->content);
 		i++;
 		a = a->next;
 	}
@@ -140,13 +142,14 @@ void	rr(t_data *data, int i)
 		while ((*a)->next)
 			*a = (*a)->next;
 		(*a)->next = b;
-		*a = (*a)->next->next;
+		while (b->next != *a)
+			b = b->next;
 		b->next = NULL;
 	}
 	if (i == 1)
-		write(1, "rb\n", 4);
+		write(1, "rrb\n", 4);
 	else
-		write(1, "ra\n", 4);
+		write(1, "rra\n", 4);
 //	print_list(data);
 	limits(data, i % 2);
 }

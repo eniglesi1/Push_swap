@@ -79,7 +79,7 @@ void	dupnum(t_list *a)
 		while (a)
 		{
 			if (a->content == i)
-				exit(write(1, "Error\n", 5) - 5);
+				exit(write(1, "Error, número duplicado\n", 25) - 25);
 			a = a->next;
 		}
 		b = b->next;
@@ -121,7 +121,7 @@ void	limits(t_data *data, int i)
 		}
 	}
 }
-
+/*
 void	org(t_data *data, int i)
 {
 	limits(data, i);
@@ -161,13 +161,69 @@ void	org_ab(t_data *data)
 				r(data, 0);
 	}
 }
+*/
+
+int		isnumered(t_data *data)
+{
+	t_list	*a;
+
+	a = data->a;
+	while(a)
+	{
+		if (a->numeration == 0)
+			return (1);
+		a = a->next;
+	}
+	return (0);
+}
+
+void	numered(t_data *data)
+{
+	t_list	*c;
+	t_list	*min;
+	int		i;
+
+	i = 1;
+	while (isnumered(data))
+	{
+		min = data->a;
+		c = data->a;
+		while (c)
+		{
+			if (min->content > c->content && c->numeration == 0)
+				min = c;
+			c = c->next;
+		}
+		min->numeration = i;
+		i++;
+	}
+	data->i = i;
+}
+
+void	impar(t_data *data)
+{
+	limits(data, 0);
+	
+}
+
+void	renumered(t_data *data)
+{
+	if (data->i % 2 == 1)
+		impar(data);
+}
+
+void	org_ab(t_data *data)
+{
+	numered(data);
+	print_list(data);
+	renumered(data);
+}
 
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
 	data.a = parseo(argc, argv);
-	data.i = 1;
 	org_ab(&data);
 	return (0);
 }
