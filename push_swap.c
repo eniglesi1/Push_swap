@@ -99,27 +99,31 @@ t_list	*parseo(int argc, char **argv)
 
 void	limits(t_data *data, int i)
 {
-	t_list	*a;
+	t_list	**a;
 
 	if (i == 0 || i == 2)
-		a = data->a;
+		a = &data->a;
 	if (i == 1)
-		a = data->b;
+		a = &data->b;
+	printf("Antes\n");
 	if (a)
 	{
-		data->first = &a->content;
-		data->min = a->content;
-		data->max = a->content;
-		while (a)
+		data->first = *a;
+		data->min = **a;
+		data->max = **a;
+		while (*a)
 		{
-			if (a->content > data->max)
-				data->max = a->content;
-			if (a->content < data->min)
-				data->min = a->content;
-			data->last = &a->content;
-			a = a->next;
+			if ((*a)->content > data->max.content)
+				data->max = **a;
+			if ((*a)->content < data->min.content)
+				data->min = **a;
+			data->last = *a;
+			(*a) = (*a)->next;
 		}
+		*a = data->first;
 	}
+	printf("Después\n");
+	printf(" ---  LIMITS  --- \n -%d- -%d- \n -%d- -%d- \n -%d- -%d- \n -%d- -%d- \n", data->first->content, data->first->numeration, data->min.content, data->min.numeration, data->max.content, data->max.numeration, data->last->content, data->last->numeration);
 }
 /*
 void	org(t_data *data, int i)
@@ -192,9 +196,15 @@ void	numered(t_data *data)
 		{
 			if (min->content > c->content && c->numeration == 0)
 				min = c;
+			else if (c->numeration == 0 && min->numeration != 0)
+				min = c;
 			c = c->next;
 		}
 		min->numeration = i;
+		print_list(data);
+		limits(data, 0);
+		r(data, 0);
+		sleep(5);
 		i++;
 	}
 	data->i = i;

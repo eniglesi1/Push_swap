@@ -26,10 +26,10 @@ typedef struct s_list
 typedef struct s_data
 {
 	int		i;
-	int		min;
-	int		max;
-	int		*first;
-	int		*last;
+	t_list	min;
+	t_list	max;
+	t_list	*first;
+	t_list	*last;
 	t_list	*a;
 	t_list	*b;
 }	t_data;
