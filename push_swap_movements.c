@@ -34,16 +34,18 @@ void	print_list(t_data *data)
 	printf("------------------------------\nImprimiendo lista: a\n");
 	while (a && i < 20)
 	{
-		printf("     a%d : -%d-     %d\n", i + 1, a->numeration, a->content);
+		printf("     a%d : -%d-     %d\n", a->position, a->numeration, a->content);
 		a->position = i + 1;
 		i++;
 		a = a->next;
 	}
 	a = data->b;
+	i = 0;
 	printf("------------------------------\nImprimiendo lista: b\n");
 	while (a && i < 20)
 	{
-		printf("     a%d : -%d-\n", a->numeration, a->content);
+		printf("     b%d : -%d-     %d\n", a->position, a->numeration, a->content);
+		a->position = i + 1;
 		i++;
 		a = a->next;
 	}

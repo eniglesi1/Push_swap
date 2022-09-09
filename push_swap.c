@@ -42,7 +42,7 @@ void	nochars(char **argv)
 	}
 }
 
-t_list	*allints(char **argv)
+t_list	*allints(char **argv, t_data *data)
 {
 	int		i;
 	t_list	*a;
@@ -63,6 +63,7 @@ t_list	*allints(char **argv)
 		b = b->next;
 		i++;
 	}
+	data->i = i - 1;
 	return (c);
 }
 
@@ -87,12 +88,12 @@ void	dupnum(t_list *a)
 	}
 }
 
-t_list	*parseo(int argc, char **argv)
+t_list	*parseo(int argc, char **argv, t_data *data)
 {
 	t_list	*a;
 
 	numparam(argc);
-	a = allints(argv);
+	a = allints(argv, data);
 	dupnum(a);
 	return (a);
 }
@@ -167,11 +168,13 @@ void	org_ab(t_data *data)
 }
 */
 
-int		isnumered(t_data *data)
+int		isnumered(t_data *data, int opt)
 {
 	t_list	*a;
 
-	a = data->a;
+	a = data->b;
+	if (opt == 0)
+		a = data->a;
 	while(a)
 	{
 		if (a->numeration == 0)
@@ -181,17 +184,19 @@ int		isnumered(t_data *data)
 	return (0);
 }
 
-void	numered(t_data *data)
+void	numered(t_data *data, int opt)
 {
 	t_list	*c;
 	t_list	*min;
 	int		i;
 
 	i = 1;
-	while (isnumered(data))
+	while (isnumered(data, opt))
 	{
-		min = data->a;
-		c = data->a;
+		min = data->b;
+		if (opt == 0)
+			min = data->a;
+		c = min;
 		while (c)
 		{
 			if (min->content > c->content && c->numeration == 0)
@@ -202,38 +207,113 @@ void	numered(t_data *data)
 		}
 		min->numeration = i;
 		print_list(data);
-		limits(data, 0);
-		r(data, 0);
-		sleep(5);
+		limits(data, opt);
+	//	r(data, 0);
+		sleep(1);
 		i++;
 	}
-	data->i = i;
+	data->i = i - 1;
+}
+
+void	move(t_data *data, int i)
+{
+	if (i == 0)
+	{
+		if ((data->last->position - data->max.position) >= (data->max.position - data->first->position))
+			while (data->first->position != data->max.position)
+				r(data, 0);
+		else
+			while (data->first->position != data->max.position)
+				rr(data, 0);
+		p(data, 0);
+	}
+	else
+	{
+		if ((data->last->position - data->min.position) >= (data->min.position - data->first->position))
+			while (data->first->position != data->min.position)
+				r(data, 0);
+		else
+			while (data->first->position != data->min.position)
+				rr(data, 0);
+		p(data, 0);
+	}
 }
 
 void	impar(t_data *data)
 {
+	int	i;
+	int	j;
+
 	limits(data, 0);
-	
+	if ((data->last->position - data->min.position) >= (data->min.position - data->first->position))
+		i = data->min.position - data->first->position;
+	else
+		i = data->min.position - data->last->position;
+	if ((data->last->position - data->max.position) >= (data->max.position - data->first->position))
+		j = data->max.position - data->first->position;
+	else
+		j = data->max.position - data->last->position;
+	if (i >= j)
+		move(data, 0);
+	else
+		move(data, 1);
+		
+}
+
+void	resetnumered(t_data *data)
+{
+	t_list *a;
+
+	a = data->a;
+	while (a)
+	{
+		a->numeration = 0;
+		a = a->next;
+	}
+	a = data->b;
+	while (a)
+	{
+		a->numeration = 0;
+		a = a->next;
+	}
 }
 
 void	renumered(t_data *data)
 {
-	if (data->i % 2 == 1)
-		impar(data);
+	t_list	**a;
+
+	a = &data->a;
+	while (data->min.numeration <= (data->i / 2))
+	{
+		if ((*a)->numeration <= (data->i / 2))
+			p(data, 0);
+		r(data, 0);
+//		print_list(data);
+//		limits(data, 0);
+//		sleep(2);
+	}
+	resetnumered(data);
+	numered(data, 0);
+	numered(data, 1);
 }
 
 void	org_ab(t_data *data)
 {
-	numered(data);
+//	numered(data);
+	limits(data, 0);
 	print_list(data);
+	if (data->i % 2 == 1)
+		impar(data);
+	numered(data, 0);
 	renumered(data);
+	print_list(data);
 }
 
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	data.a = parseo(argc, argv);
+	data.a = parseo(argc, argv, &data);
 	org_ab(&data);
 	return (0);
 }
