@@ -199,7 +199,9 @@ void	numered(t_data *data, int opt)
 		{
 			if (opt == 1 && (data->i % 2) == 1 && c->next == NULL)
 				c->numeration = -1;
-			else if (min->content > c->content && c->numeration == 0)
+			else if (opt == 0 && min->content > c->content && c->numeration == 0)
+				min = c;
+			else if (opt != 0 && min->content < c->content && c->numeration == 0)
 				min = c;
 			else if (c->numeration == 0 && min->numeration != 0)
 				min = c;
@@ -326,7 +328,7 @@ int		bestoption(t_data *data)
 		b = b->next;
 		a = a->next;
 	}
-	printf("----- %d -----\n", i);
+	printf("----- %d ----- %d, \n", i, data->i);
 	if (i >= 0)
 		return (0);
 	else
@@ -368,11 +370,11 @@ void	preorder(t_data *data)
 		printf("B está más desordenado-----\n");
 		//sleep(2);
 	}
-	while (ispreorded(data))
-	{
-		
-	}
-	
+//	while (ispreorded(data))
+//	{
+//		
+//	}
+//	
 }
 
 void	org_ab(t_data *data)
