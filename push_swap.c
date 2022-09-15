@@ -106,7 +106,6 @@ void	limits(t_data *data, int i)
 		a = &data->a;
 	if (i == 1)
 		a = &data->b;
-	printf("Antes\n");
 	if (a)
 	{
 		data->first = *a;
@@ -123,7 +122,6 @@ void	limits(t_data *data, int i)
 		}
 		*a = data->first;
 	}
-	printf("Después\n");
 	printf(" ---  LIMITS  --- \n -%d- -%d- \n -%d- -%d- \n -%d- -%d- \n -%d- -%d- \n", data->first->content, data->first->numeration, data->min.content, data->min.numeration, data->max.content, data->max.numeration, data->last->content, data->last->numeration);
 }
 /*
@@ -199,7 +197,9 @@ void	numered(t_data *data, int opt)
 		c = min;
 		while (c)
 		{
-			if (min->content > c->content && c->numeration == 0)
+			if (opt == 1 && (data->i % 2) == 1 && c->next == NULL)
+				c->numeration = -1;
+			else if (min->content > c->content && c->numeration == 0)
 				min = c;
 			else if (c->numeration == 0 && min->numeration != 0)
 				min = c;
@@ -209,10 +209,9 @@ void	numered(t_data *data, int opt)
 		print_list(data);
 		limits(data, opt);
 	//	r(data, 0);
-		sleep(1);
+		//sleep(1);
 		i++;
 	}
-	data->i = i - 1;
 }
 
 void	move(t_data *data, int i)
@@ -287,14 +286,93 @@ void	renumered(t_data *data)
 	{
 		if ((*a)->numeration <= (data->i / 2))
 			p(data, 0);
-		r(data, 0);
+		else
+			r(data, 0);
 //		print_list(data);
 //		limits(data, 0);
-//		sleep(2);
+//		//sleep(2);
 	}
 	resetnumered(data);
 	numered(data, 0);
 	numered(data, 1);
+}
+
+int		postorder(t_list *a, t_list *b)
+{
+	int	i;
+	int	j;
+
+	i = a->position - a->numeration;
+	j = b->position - b->numeration;
+	if (i < 0)
+		i *= -1;
+	if (j < 0)
+		j *= -1;
+	return (i - j);
+}
+
+int		bestoption(t_data *data)
+{
+	t_list	*a;
+	t_list	*b;
+	int		i;
+
+	i = 0;
+	a = data->a;
+	b = data->b;
+	while (a)
+	{
+		i += postorder(a, b);
+		b = b->next;
+		a = a->next;
+	}
+	printf("----- %d -----\n", i);
+	if (i >= 0)
+		return (0);
+	else
+		return (1);
+}
+
+int		ispreorded(t_data *data)
+{
+	t_list	*a;
+	t_list	*b;
+
+	a = data->a;
+	b = data->b;
+	while (a)
+	{
+		if (a->numeration + b->numeration != ((data->i / 2) + 1))
+			return (1);
+		a = a->next;
+		b = b->next;
+	}
+	return (0);
+}
+
+void	preorder(t_data *data)
+{
+	t_list	*a;
+	t_list	*b;
+	int		i;
+//vamos a reordenar a (a está más desordenado)
+	i = 0;
+	a = data->a;
+	b = data->b;
+	if (bestoption(data))
+	{//vamos a reordenar b(b está más desordenado)
+		i = 1;
+		a = data->b;
+		b = data->a;
+		print_list(data);
+		printf("B está más desordenado-----\n");
+		//sleep(2);
+	}
+	while (ispreorded(data))
+	{
+		
+	}
+	
 }
 
 void	org_ab(t_data *data)
@@ -306,6 +384,7 @@ void	org_ab(t_data *data)
 		impar(data);
 	numered(data, 0);
 	renumered(data);
+	preorder(data);
 	print_list(data);
 }
 
