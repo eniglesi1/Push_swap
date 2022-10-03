@@ -122,7 +122,7 @@ void	limits(t_data *data, int i)
 		}
 		*a = data->first;
 	}
-	printf(" ---  LIMITS  --- \n -%d- -%d- \n -%d- -%d- \n -%d- -%d- \n -%d- -%d- \n", data->first->content, data->first->numeration, data->min.content, data->min.numeration, data->max.content, data->max.numeration, data->last->content, data->last->numeration);
+	//printf(" ---  LIMITS  --- \n -%d- -%d- \n -%d- -%d- \n -%d- -%d- \n -%d- -%d- \n", data->first->content, data->first->numeration, data->min.content, data->min.numeration, data->max.content, data->max.numeration, data->last->content, data->last->numeration);
 }
 /*
 void	org(t_data *data, int i)
@@ -328,7 +328,7 @@ int		bestoption(t_data *data)
 		b = b->next;
 		a = a->next;
 	}
-	printf("----- %d ----- %d, \n", i, data->i);
+//	printf("----- %d ----- %d, \n", i, data->i);
 	if (i >= 0)
 		return (0);
 	else
@@ -352,15 +352,48 @@ int		ispreorded(t_data *data)
 	return (0);
 }
 
+int		ft_listlen(t_list	*b)
+{
+	int	i;
+
+	i = 1;
+	while (b)
+	{
+		b = b->next;
+		i++;
+	}
+	return (i);
+}
+
+int		*numfrb(t_list *b)
+{
+	int	*i;
+	int	j;
+
+	j = 0;
+	i = malloc(sizeof(int) * (ft_listlen(b) - 1));
+	while (b)
+	{
+		i[j] = b->numeration;
+//		printf("%d\n", b->numeration);
+		j++;
+		b = b->next;
+	}
+	i[j] = '\0';
+	return (i);
+}
+
 void	preorder(t_data *data)
 {
 	t_list	*a;
 	t_list	*b;
 	int		i;
+	int		*numb;
 //vamos a reordenar a (a está más desordenado)
 	i = 0;
 	a = data->a;
 	b = data->b;
+	numb = numfrb(a);
 	if (bestoption(data))
 	{//vamos a reordenar b(b está más desordenado)
 		i = 1;
@@ -368,13 +401,14 @@ void	preorder(t_data *data)
 		b = data->a;
 		print_list(data);
 		printf("B está más desordenado-----\n");
+		free(numb);
+		numb = numfrb(b);
 		//sleep(2);
 	}
-//	while (ispreorded(data))
-//	{
-//		
-//	}
-//	
+	while (ispreorded(data))
+	{
+		
+	}
 }
 
 void	org_ab(t_data *data)
