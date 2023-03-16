@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eniglesi <eniglesi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/07 13:24:55 by eniglesi          #+#    #+#             */
-/*   Updated: 2021/09/27 09:24:57 by eniglesi         ###   ########.fr       */
+/*   Created: 2021/08/06 18:47:49 by eniglesi          #+#    #+#             */
+/*   Updated: 2021/08/06 19:26:33 by eniglesi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <stddef.h>
-# include <stdio.h>
-# include "libft/libft.h"
+#include <stdio.h>
 
-int	ft_printf(const char *a, ...);
-
-#endif
+void	ft_bzero(void *s, size_t n)
+{
+	while (n > 0)
+	{
+		n--;
+		((char *)s)[n] = '\0';
+	}
+}

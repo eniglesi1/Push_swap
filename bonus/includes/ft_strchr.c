@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eniglesi <eniglesi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/07 13:24:55 by eniglesi          #+#    #+#             */
-/*   Updated: 2021/09/27 09:24:57 by eniglesi         ###   ########.fr       */
+/*   Created: 2021/08/06 18:49:47 by eniglesi          #+#    #+#             */
+/*   Updated: 2023/03/16 11:05:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <stddef.h>
-# include <stdio.h>
-# include "libft/libft.h"
+#include "../includes/Push_swap_bonus.h"
 
-int	ft_printf(const char *a, ...);
-
-#endif
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (unsigned char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (c == 0)
+		return ((char *)s);
+	return (NULL);
+}

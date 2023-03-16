@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eniglesi <eniglesi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/07 13:24:55 by eniglesi          #+#    #+#             */
-/*   Updated: 2021/09/27 09:24:57 by eniglesi         ###   ########.fr       */
+/*   Created: 2021/08/06 18:47:32 by eniglesi          #+#    #+#             */
+/*   Updated: 2023/03/16 11:05:42 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
-# include <stddef.h>
-# include <stdio.h>
-# include "libft/libft.h"
+#include "../includes/Push_swap_bonus.h"
 
-int	ft_printf(const char *a, ...);
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
 
-#endif
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}

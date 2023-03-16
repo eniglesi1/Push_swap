@@ -1,0 +1,13 @@
+{
+	"files.associations": {
+		"sstream": "c",
+		"random": "c",
+		"push_swap.h": "c",
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"push_swap_bonus.h": "c"
+	},
+	"cmake.sourceDirectory": "${workspaceFolder}/push_swap2/push_swap_visualizer/build/_deps/imgui-sfml-src",
+	"norminette.fileregex": "^*\\.[ch]$"
+}
