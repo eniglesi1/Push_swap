@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:26:31 by codespace         #+#    #+#             */
-/*   Updated: 2023/03/16 10:58:57 by codespace        ###   ########.fr       */
+/*   Updated: 2023/03/17 14:12:28 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	char_in_str(char *str)
 			&& (str[i] <= 47 || str[i] >= 58))
 			return (1);
 		if ((str[i] == '+' || str[i] == '-')
-			&& (i > 0 && str[i - 1] != ' '))
+			&& ((i > 0 && str[i - 1] != ' ') || str[i + 1] == ' '))
 			return (1);
 		i++;
 	}
