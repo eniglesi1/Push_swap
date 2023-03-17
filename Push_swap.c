@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:26:39 by codespace         #+#    #+#             */
-/*   Updated: 2023/03/15 12:26:41 by codespace        ###   ########.fr       */
+/*   Updated: 2023/03/17 13:58:50 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,18 @@ int	list_len(t_list *list)
 	return (0);
 }
 
-int	last(t_list *list)
+int	ispositioned(t_data *data)
 {
 	int	aux;
 
-	reverse_rotate(&(list), "");
-	aux = list->num;
-	rotate(&(list), "");
-	return (aux);
+	reverse_rotate(&(data->a), "");
+	aux = data->a->num;
+	rotate(&(data->a), "");
+	return ((data->b->num < data->a->num && aux < data->b->num)
+		|| (data->b->num == 1 && (data->a->num == 2 || aux == 5))
+		|| (data->b->num == 5 && (data->a->num == 1 || aux == 4))
+		|| (data->b->num == 2 && (data->a->num == 3 && aux == 5))
+		|| (data->b->num == 4 && (data->a->num == 1 && aux == 3)));
 }
 
 void	three_five(t_data *data)
@@ -53,9 +57,7 @@ void	three_five(t_data *data)
 	else
 		swap(&(data->a), "sa\n");
 	while (data->b)
-		if ((data->b->num < data->a->num && last(data->a) < data->b->num)
-			|| (data->b->num == 1 && (data->a->num == 2 || last(data->a) == 5))
-			|| (data->b->num == 5 && (data->a->num == 1 || last(data->a) == 4)))
+		if (ispositioned(data))
 			push(&(data->b), &(data->a), "pa\n");
 	else
 		if ((data->a->num == ((data->b->num + 3) % 5) + 1))
@@ -75,7 +77,7 @@ void	push_swap(t_data *data)
 	int	listlen;
 
 	i = 32;
-	if (list_len(data->a) <= 5)
+	if (list_len(data->a) <= 5 && !isorded(data->a, 0))
 		while (list_len(data->a) > 3)
 			push(&(data->a), &(data->b), "pb\n");
 	if (list_len(data->a) == 3)

@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/20 12:49:20 by eniglesi          #+#    #+#             */
-/*   Updated: 2023/03/15 14:38:03 by codespace        ###   ########.fr       */
+/*   Updated: 2023/03/17 12:20:06 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char		*itobin(unsigned int num, char *aux, int neg);
 
 void		clean_list(t_list *list);
 void		parseo(char *str, char **a);
-void		check(t_data *data, char **argv);
+void		push_swap(t_data *data);
 
 void		rotate(t_list **list, char *str);
 void		reverse_rotate(t_list **list, char *str);
