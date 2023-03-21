@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:26:39 by codespace         #+#    #+#             */
-/*   Updated: 2023/03/17 13:58:50 by codespace        ###   ########.fr       */
+/*   Updated: 2023/03/21 20:42:04 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	three_five(t_data *data)
 		if (ispositioned(data))
 			push(&(data->b), &(data->a), "pa\n");
 	else
-		if ((data->a->num == ((data->b->num + 3) % 5) + 1))
+		if (data->a->num == ((data->b->num + 3) % 5) + 1)
 			rotate(&(data->a), "ra\n");
 	else
 		reverse_rotate(&(data->a), "rra\n");
